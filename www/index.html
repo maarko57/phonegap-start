@@ -1,43 +1,108 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready for Maarten</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-            alert("Hello World");
-        </script>
-    </body>
-</html>
+	<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Titanus</title>
+
+<style id="mk">
+.grid {
+  text-align: justify !important;
+  text-justify: distribute-all-lines;
+  font-size: 0 !important;
+}
+.grid:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+}
+.grid > * {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  font-size: x-large;
+  background-color: #808040;
+}
+.span-1 { width: 6.77966%; }
+.span-2 { width: 15.25424%; }
+.span-3 { width: 23.72881%; }
+.span-4 { width: 32.20339%; }
+.span-5 { width: 40.67797%; }
+.span-6 { width: 49.15254%; }
+.span-7 { width: 57.62712%; }
+.span-8 { width: 66.10169%; }
+.span-9 { width: 74.57627%; }
+.span-10 { width: 83.05085%; }
+.span-11 { width: 91.52542%; }
+
+label { width: 100%; }
+input {font-size: large; width: 98%;  }
+
+</style>
+</head>
+
+<body>
+<div class="grid">
+<div class="span-6"><label>Luftdruck</label></div>
+<div class="span-6"><input id="f5" value="1018" onchange="erg()"></input></div>
+</div>
+<br>
+<div class="grid">
+<div class="span-6"><label>Höhe</label></div>
+<div class="span-6"><input id="f8" value="56" onchange="erg()"></input></div>
+</div>
+<br>
+<div class="grid">
+<div class="span-6"><label>Temperatur</label></div>
+<div class="span-6"><input id="f11" value="20" onchange="erg()"></input></div>
+</div>
+<br>
+<div class="grid">
+<div class="span-6"><label>Spannung</label></div>
+<div class="span-6"><label id="sp1" value="" >-</div>
+</div>
+
+<script>
+function erg() {
+F5 = parseFloat(document.getElementById("f5").value);//Temperatur
+F8 = parseFloat(document.getElementById("f8").value);//Höhe
+F11 = parseFloat(document.getElementById("f11").value);//Temeratur
+SP1 = document.getElementById("sp1");
+K10 = 1008;
+K25 = 1.4;
+if (F5<973)
+R4 = 1;
+else
+R4 = 0;
+if (F5>1043)
+R5 = 1;
+else
+R5 = 0;
+if ((R4+R5) > 0) alert("nur 973-1043 hPa");
+E13 = F11 + 273.15 + 0.00325;
+L8 = (9.81*F8)/(287.05*E13);
+F14 = F5/Math.exp(L8);
+K11 = K10/Math.exp(L8);
+K14 = F5 -35;
+K15 = K11-35;
+K18 = F5+35;
+K19 = K11+35;
+K22 = K19-K15;
+K27 = K25/K22;
+K29 = F14-K15;
+K31 = (K29*K27)+0.5;
+F16 = K31;
+SP1.textContent = Math.round(F16*100)/100 + " Volt";
+//alert("Spannung = " + (Math.round(F16*100))/100 + " Volt");
+
+
+}
+
+
+
+
+</script>
+
+
+</body></html>
